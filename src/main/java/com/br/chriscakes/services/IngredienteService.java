@@ -34,13 +34,33 @@ public class IngredienteService {
 
     @Transactional
     public IngredienteDTO insert(IngredienteDTO dto) {
-        var ingrediente = makeIngrediente(dto);
+        var ingrediente = makeInsertIngrediente(dto);
         ingrediente = repository.save(ingrediente);
         return new IngredienteDTO(ingrediente);
     }
 
-    private Ingrediente makeIngrediente(IngredienteDTO dto) {
+    @Transactional
+    public IngredienteDTO update(IngredienteDTO dto, Long id) {
+        var ingredienteSalvo = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format("Ingrediente de id %d não foi encontrado!", id)));
+        dto.setId(id);
+        var ingrediente = makeUpdateIngrediente(ingredienteSalvo, dto);
+        ingrediente = repository.save(ingrediente);
+        return new IngredienteDTO(ingrediente);
+    }
+
+    private Ingrediente makeInsertIngrediente(IngredienteDTO dto) {
         var ingrediente = new Ingrediente();
+        ingrediente.setNome(dto.getNome());
+        ingrediente.setUnidadeMedida(dto.getUnidadeMedida());
+        ingrediente.setQuantidadeMedida(dto.getQuantidadeMedida());
+        ingrediente.setQuantidadeEmEstoque(dto.getQuantidadeEmEstoque());
+        return ingrediente;
+    }
+
+    private Ingrediente makeUpdateIngrediente(Ingrediente ingrediente, IngredienteDTO dto) {
+        ingrediente.setId(dto.getId());
         ingrediente.setNome(dto.getNome());
         ingrediente.setUnidadeMedida(dto.getUnidadeMedida());
         ingrediente.setQuantidadeMedida(dto.getQuantidadeMedida());
