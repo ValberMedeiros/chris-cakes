@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class IngredienteService {
 
+    private static final String MSG_RECURSO_NAO_ENCONTRADO = "Ingrediente de id %d não foi encontrado!";
+
     private IngredientesRepository repository;
 
     public IngredienteService(IngredientesRepository repository) {
@@ -46,7 +48,7 @@ public class IngredienteService {
     public IngredienteDTO update(IngredienteDTO dto, Long id) {
         var ingredienteSalvo = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        String.format("Ingrediente de id %d não foi encontrado!", id)));
+                        String.format(MSG_RECURSO_NAO_ENCONTRADO, id)));
         dto.setId(id);
         var ingrediente = makeUpdateIngrediente(ingredienteSalvo, dto);
         ingrediente = repository.save(ingrediente);
@@ -57,11 +59,31 @@ public class IngredienteService {
         try {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException(String.format("Ingrediente de id %d não foi encontrado!", id));
+            throw new ResourceNotFoundException(String.format(MSG_RECURSO_NAO_ENCONTRADO, id));
         } catch (DataIntegrityViolationException e) {
             throw new DataBaseException(String.format("Não foi possível deletar o ingrediente de id %d," +
                     " pois o mesmo existe em estoque", id));
         }
+    }
+
+    @Transactional
+    public void adicionaIngredienteEmEstoque(Long id, Long quantidade) {
+        var ingrediente = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format(MSG_RECURSO_NAO_ENCONTRADO, id)));
+        Long quantidadeEmEstoque = ingrediente.getQuantidadeEmEstoque();
+        ingrediente.setQuantidadeEmEstoque(quantidadeEmEstoque += quantidade);
+        repository.save(ingrediente);
+    }
+
+    @Transactional
+    public void retirarIngredienteEmEstoque(Long id, Long quantidade) {
+        var ingrediente = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format(MSG_RECURSO_NAO_ENCONTRADO, id)));
+        Long quantidadeEmEstoque = ingrediente.getQuantidadeEmEstoque();
+        ingrediente.setQuantidadeEmEstoque(quantidadeEmEstoque -= quantidade);
+        repository.save(ingrediente);
     }
 
     private Ingrediente makeInsertIngrediente(IngredienteDTO dto) {
