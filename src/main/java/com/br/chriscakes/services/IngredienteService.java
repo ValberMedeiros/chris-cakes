@@ -3,7 +3,10 @@ package com.br.chriscakes.services;
 import com.br.chriscakes.domain.dto.IngredienteDTO;
 import com.br.chriscakes.domain.entities.Ingrediente;
 import com.br.chriscakes.repositories.IngredientesRepository;
+import com.br.chriscakes.services.exceptions.DataBaseException;
 import com.br.chriscakes.services.exceptions.ResourceNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -48,6 +51,17 @@ public class IngredienteService {
         var ingrediente = makeUpdateIngrediente(ingredienteSalvo, dto);
         ingrediente = repository.save(ingrediente);
         return new IngredienteDTO(ingrediente);
+    }
+
+    public void delete(Long id) {
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(String.format("Ingrediente de id %d não foi encontrado!", id));
+        } catch (DataIntegrityViolationException e) {
+            throw new DataBaseException(String.format("Não foi possível deletar o ingrediente de id %d," +
+                    " pois o mesmo existe em estoque", id));
+        }
     }
 
     private Ingrediente makeInsertIngrediente(IngredienteDTO dto) {
