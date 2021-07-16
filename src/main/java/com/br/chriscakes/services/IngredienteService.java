@@ -7,6 +7,7 @@ import com.br.chriscakes.services.exceptions.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class IngredienteService {
@@ -29,5 +30,21 @@ public class IngredienteService {
                         String.format("Ingrediente com id %d não encontrado!", id)));
 
         return new IngredienteDTO(ingrediente);
+    }
+
+    @Transactional
+    public IngredienteDTO insert(IngredienteDTO dto) {
+        var ingrediente = makeIngrediente(dto);
+        ingrediente = repository.save(ingrediente);
+        return new IngredienteDTO(ingrediente);
+    }
+
+    private Ingrediente makeIngrediente(IngredienteDTO dto) {
+        var ingrediente = new Ingrediente();
+        ingrediente.setNome(dto.getNome());
+        ingrediente.setUnidadeMedida(dto.getUnidadeMedida());
+        ingrediente.setQuantidadeMedida(dto.getQuantidadeMedida());
+        ingrediente.setQuantidadeEmEstoque(dto.getQuantidadeEmEstoque());
+        return ingrediente;
     }
 }
