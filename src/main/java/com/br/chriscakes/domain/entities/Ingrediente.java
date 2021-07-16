@@ -21,7 +21,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Ingredientes implements Serializable {
+public class Ingrediente implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

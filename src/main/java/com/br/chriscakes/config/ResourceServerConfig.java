@@ -23,7 +23,7 @@ import java.util.Arrays;
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private static final String[] PUBLIC = { "/oauth/token", "/h2-console/**" };
-    private static final String[] OPERATOR_OR_ADMIN = { "/products/**", "/categories/**" };
+    private static final String[] OPERATOR_OR_ADMIN = { "/ingredientes/**", "/ingredientes" };
     private static final String[] ADMIN = { "/users/**" };
     private final JwtTokenStore tokenStore;
     private final Environment env;
@@ -52,7 +52,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers(PUBLIC).permitAll()
                     .antMatchers(HttpMethod.GET, OPERATOR_OR_ADMIN).permitAll()
-                    .antMatchers(OPERATOR_OR_ADMIN).hasAnyRole("OPERATOR", "ADMIN")
+                    .antMatchers(OPERATOR_OR_ADMIN).permitAll()
                     .antMatchers(ADMIN).hasRole("ADMIN")
                     .anyRequest().authenticated();
         http
