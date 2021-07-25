@@ -36,6 +36,11 @@ public class IngredienteResource {
         return ResponseEntity.ok(service.findById(id));
     }
 
+    @GetMapping("/{id}/valor-em-estoque")
+    public ResponseEntity<Double> getValorEmEstoque(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getValorTotalIngredienteEmEstoque(id));
+    }
+
     @PostMapping
     public ResponseEntity<IngredienteDTO> insert(@RequestBody IngredienteDTO ingredienteDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(ingredienteDTO));

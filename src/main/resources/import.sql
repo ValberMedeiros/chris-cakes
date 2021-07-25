@@ -17,12 +17,12 @@ INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 1);
 INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 2);
 
 /* SEED DE DADOS NA TABELA DE INGREDIENTES */
-INSERT INTO tb_ingredientes (nome, unidade_medida, quantidade_medida, quantidade_em_estoque) VALUES ('Leite condensado', 0, 5, 100);
+INSERT INTO tb_ingredientes (nome, unidade_medida, quantidade_medida, quantidade_em_estoque, valor) VALUES ('Leite condensado', 0, 5, 100, 50.90);
 
-INSERT INTO tb_ingredientes (nome, unidade_medida, quantidade_medida, quantidade_em_estoque) VALUES ('Creme de leite', 0, 1, 100);
+INSERT INTO tb_ingredientes (nome, unidade_medida, quantidade_medida, quantidade_em_estoque, valor) VALUES ('Creme de leite', 0, 1, 100, 40.55);
 
-INSERT INTO tb_ingredientes (nome, unidade_medida, quantidade_medida, quantidade_em_estoque) VALUES ('Óleo', 3, 900, 100);
+INSERT INTO tb_ingredientes (nome, unidade_medida, quantidade_medida, quantidade_em_estoque, valor) VALUES ('Óleo', 3, 900, 100, 90.99);
 
-INSERT INTO tb_ingredientes (nome, unidade_medida, quantidade_medida, quantidade_em_estoque) VALUES ('Leite em pó', 4, 380, 100);
+INSERT INTO tb_ingredientes (nome, unidade_medida, quantidade_medida, quantidade_em_estoque, valor) VALUES ('Leite em pó', 4, 380, 100, 150.55);
 
 

@@ -32,5 +32,6 @@ public class Ingrediente implements Serializable {
     private UnidadeMedida unidadeMedida;
     private Long quantidadeMedida;
     private Long quantidadeEmEstoque;
+    private Double valor;
 
 }

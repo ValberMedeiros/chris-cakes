@@ -86,12 +86,21 @@ public class IngredienteService {
         repository.save(ingrediente);
     }
 
+    public double getValorTotalIngredienteEmEstoque(Long id) {
+        var ingrediente = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format(MSG_RECURSO_NAO_ENCONTRADO, id)
+                ));
+        return (ingrediente.getQuantidadeEmEstoque() * ingrediente.getValor());
+    }
+
     private Ingrediente makeInsertIngrediente(IngredienteDTO dto) {
         var ingrediente = new Ingrediente();
         ingrediente.setNome(dto.getNome());
         ingrediente.setUnidadeMedida(dto.getUnidadeMedida());
         ingrediente.setQuantidadeMedida(dto.getQuantidadeMedida());
         ingrediente.setQuantidadeEmEstoque(dto.getQuantidadeEmEstoque());
+        ingrediente.setValor(dto.getValor());
         return ingrediente;
     }
 
@@ -101,6 +110,7 @@ public class IngredienteService {
         ingrediente.setUnidadeMedida(dto.getUnidadeMedida());
         ingrediente.setQuantidadeMedida(dto.getQuantidadeMedida());
         ingrediente.setQuantidadeEmEstoque(dto.getQuantidadeEmEstoque());
+        ingrediente.setValor(dto.getValor());
         return ingrediente;
     }
 }
