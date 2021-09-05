@@ -66,40 +66,11 @@ public class IngredienteService {
         }
     }
 
-    @Transactional
-    public void adicionaIngredienteEmEstoque(Long id, Long quantidade) {
-        var ingrediente = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        String.format(MSG_RECURSO_NAO_ENCONTRADO, id)));
-        Long quantidadeEmEstoque = ingrediente.getQuantidadeEmEstoque();
-        ingrediente.setQuantidadeEmEstoque(quantidadeEmEstoque += quantidade);
-        repository.save(ingrediente);
-    }
-
-    @Transactional
-    public void retirarIngredienteEmEstoque(Long id, Long quantidade) {
-        var ingrediente = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        String.format(MSG_RECURSO_NAO_ENCONTRADO, id)));
-        Long quantidadeEmEstoque = ingrediente.getQuantidadeEmEstoque();
-        ingrediente.setQuantidadeEmEstoque(quantidadeEmEstoque -= quantidade);
-        repository.save(ingrediente);
-    }
-
-    public double getValorTotalIngredienteEmEstoque(Long id) {
-        var ingrediente = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        String.format(MSG_RECURSO_NAO_ENCONTRADO, id)
-                ));
-        return (ingrediente.getQuantidadeEmEstoque() * ingrediente.getValor());
-    }
-
     private Ingrediente makeInsertIngrediente(IngredienteDTO dto) {
         var ingrediente = new Ingrediente();
         ingrediente.setNome(dto.getNome());
         ingrediente.setUnidadeMedida(dto.getUnidadeMedida());
         ingrediente.setQuantidadeMedida(dto.getQuantidadeMedida());
-        ingrediente.setQuantidadeEmEstoque(dto.getQuantidadeEmEstoque());
         ingrediente.setValor(dto.getValor());
         return ingrediente;
     }
@@ -109,7 +80,6 @@ public class IngredienteService {
         ingrediente.setNome(dto.getNome());
         ingrediente.setUnidadeMedida(dto.getUnidadeMedida());
         ingrediente.setQuantidadeMedida(dto.getQuantidadeMedida());
-        ingrediente.setQuantidadeEmEstoque(dto.getQuantidadeEmEstoque());
         ingrediente.setValor(dto.getValor());
         return ingrediente;
     }

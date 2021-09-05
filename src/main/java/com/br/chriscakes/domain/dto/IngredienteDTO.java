@@ -17,7 +17,6 @@ public class IngredienteDTO {
     private String nome;
     private UnidadeMedida unidadeMedida;
     private Long quantidadeMedida;
-    private Long quantidadeEmEstoque;
     private Double valor;
 
     public IngredienteDTO(Ingrediente entity) {
@@ -25,7 +24,6 @@ public class IngredienteDTO {
         nome = entity.getNome();
         unidadeMedida = entity.getUnidadeMedida();
         quantidadeMedida = entity.getQuantidadeMedida();
-        quantidadeEmEstoque = entity.getQuantidadeEmEstoque();
         valor = entity.getValor();
     }
 }

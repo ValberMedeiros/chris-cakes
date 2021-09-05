@@ -36,11 +36,6 @@ public class IngredienteResource {
         return ResponseEntity.ok(service.findById(id));
     }
 
-    @GetMapping("/{id}/valor-em-estoque")
-    public ResponseEntity<Double> getValorEmEstoque(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getValorTotalIngredienteEmEstoque(id));
-    }
-
     @PostMapping
     public ResponseEntity<IngredienteDTO> insert(@RequestBody IngredienteDTO ingredienteDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(ingredienteDTO));
@@ -56,17 +51,4 @@ public class IngredienteResource {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
-
-    @PatchMapping("/{id}/adicionar-estoque/{quantidade}")
-    public ResponseEntity<IngredienteDTO> increaseStock(@PathVariable Long id, @PathVariable Long quantidade) {
-        service.adicionaIngredienteEmEstoque(id, quantidade);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PatchMapping("/{id}/retirar-estoque/{quantidade}")
-    public ResponseEntity<IngredienteDTO> decrementStock(@PathVariable Long id, @PathVariable Long quantidade) {
-        service.retirarIngredienteEmEstoque(id, quantidade);
-        return ResponseEntity.noContent().build();
-    }
-
 }
